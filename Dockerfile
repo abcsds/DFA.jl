@@ -8,7 +8,7 @@ WORKDIR /tmp
 COPY . /tmp
 
 # Preinstall the dependencies in the global environment
-RUN julia --project=. -e "using Pkg; Pkg.instantiate(); Pkg.precompile()"
+RUN julia --project=. -e "using Pkg; Pkg.instantiate(); Pkg.precompile(); Pkg.test();"
 
 # Set the default working directory for the container
 WORKDIR /workdir

@@ -2,6 +2,10 @@
 CurrentModule = DFA
 ```
 
+<!-- '''@setup
+using Random: seed!
+seed!(137)
+''' -->
 # DFA
 
 Documentation for [DFA](https://github.com/abcsds/DFA.jl).
@@ -20,29 +24,35 @@ pkg> add https://github.com/abcsds/DFA.jl
 
 ## Usage
 
-### Basic Example
+### Basic usage
 
 We'll perform a DFA and estimate the scaling exponent for a random time series.
 
 ```julia
-using DFA
-
 x = rand(10000)
+
 scales, fluc = dfa(x)
+log_scales = log10.(scales)
+log_fluc = log10.(fluc)
+intercept, α = polyfit(log_scales, log_fluc)
+α
+
+# output
+
+0.49706362711274654
+
 ```
 
-### Advanced Example
-
-To perform a DFA on `x` with `boxmax=1000`, `boxmin=4`, `boxratio=1.2`, `overlap=0.5`:
-
-```julia
-scales, fluc = dfa(x, boxmax=1000, boxmin=4, boxratio=1.2, overlap=0.5)
-```
 
 To estimate the scaling exponent:
 
 ```julia
 intercept, α = polyfit(log10(scales), log10(fluc))  # α is the scaling exponent
+α
+
+# output
+
+0.49706362711274654
 ```
 
 To plot F(n):
@@ -59,6 +69,37 @@ To plot F(n) with a fitted line:
 log_scales = log10(scales)
 plot(log_scales, log10(fluc), seriestype=:scatter, label="DFA")
 plot!(log_scales, α .* log_scales .+ intercept, label="Fit")
+```
+
+
+### Advanced Example
+
+To perform a DFA on heart rate variability data `x`, two different box sizes are commonly used for extracting two coefficients, α1 and α2. The first box size is 4 ≤ n ≤ 16, and the second box size is 16 ≤ n ≤ 64. The scaling exponent α1 is used to quantify the short-term correlation properties of the time series, while α2 is used to quantify the long-term correlation properties of the time series.
+
+```julia
+using HTTP
+
+url = "https://physionet.org/files/rr-interval-healthy-subjects/1.0.0/000.txt"
+hrv = parse.(Float64, filter!(e->e!="", split(String(HTTP.get(url).body), r"[^\d.]")))
+x = hrv
+
+scales, fluc = dfa(x, boxmax=64, boxmin=4, boxratio=2, overlap=0.0 )
+log_scales = log10.(scales)
+log_fluc = log10.(fluc)
+intercept, α1 = polyfit(log_scales, log_fluc)
+
+scales, fluc = dfa(x, boxmax=16, boxmin=4, boxratio=2, overlap=0.0 )
+log_scales = log10.(scales)
+log_fluc = log10.(fluc)
+intercept, α2 = polyfit(log_scales, log_fluc)
+
+println("Physionet rr-interval-healthy-subjects/1.0.0/000 α1: $α1")
+println("Physionet rr-interval-healthy-subjects/1.0.0/000 α2: $α2")
+(α1, α2)
+
+# output
+
+(1.096221478218021, 1.0773259128065056)
 ```
 
 ## Functions
@@ -105,5 +146,5 @@ e220.
 ```
 
 ```@autodocs
-Modules = [DFA Plots]
+Modules = [DFA]
 ```

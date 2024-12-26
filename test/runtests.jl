@@ -21,7 +21,7 @@ import HTTP
         intercept, α = polyfit(log10.(scales), log10.(fluc))
         @test intercept ≈ -0.645847540086 atol=1e-12
         @test α ≈ 0.509373252211 atol=1e-12
-        println("Simple Normal distribution: $intercept, $α")
+        # println("Simple Normal distribution: $intercept, $α")
     end
 
     # Test wite noise
@@ -35,7 +35,7 @@ import HTTP
         intercept, α = polyfit(log10.(scales), log10.(fluc))
         @test intercept ≈ -1.1746914232962604 atol=1e-12
         @test α ≈ 0.5237515930298794 atol=1e-12
-        println("Uniform distribution: $intercept, $α")
+        # println("Uniform distribution: $intercept, $α")
     end
 
     # Test random walk / brownian motion
@@ -47,7 +47,7 @@ import HTTP
         intercept, α = polyfit(log10.(scales), log10.(fluc))
         @test intercept ≈ -1.4091958750176548 atol=1e-12
         @test α ≈ 1.5477976383996574 atol=1e-12
-        println("Brownian motion: $intercept, $α")
+        # println("Brownian motion: $intercept, $α")
     end
 
     # Test pink noise
@@ -59,7 +59,7 @@ import HTTP
         intercept, α = polyfit(log10.(scales), log10.(fluc))
         @test intercept ≈ -1.2717558431479488 atol=1e-12
         @test α ≈ 1.0161132560075559 atol=1e-12
-        println("Pink noise: $intercept, $α")
+        # println("Pink noise: $intercept, $α")
     end
 
     # Test wite noise
@@ -72,7 +72,7 @@ import HTTP
             intercept, α = polyfit(log10.(scales), log10.(fluc))
             @test intercept ≈ 0.10576185464214086 atol=1e-12
             @test α ≈ 1.5734083037634519 atol=1e-12
-            println("Under scale (300) and translate(sin(2πx/100)): $intercept, $α")
+            # println("Under scale (300) and translate(sin(2πx/100)): $intercept, $α")
         end
 
         @testset "DFA.transforms.translate" begin
@@ -83,7 +83,7 @@ import HTTP
             intercept, α = polyfit(log10.(scales), log10.(fluc))
             @test intercept ≈ -2.6458475400862542 atol=1e-12
             @test α ≈ 0.5093732522114474 atol=1e-12
-            println("Under translate(300): $intercept, $α")
+            # println("Under translate(300): $intercept, $α")
         end
     end
 
@@ -160,7 +160,7 @@ import HTTP
         intercept, α = polyfit(log_scales, log_fluc)
         @test intercept ≈ 0.6476733308961827
         @test α ≈ 1.0377546755013551 atol=1e-12
-        println("Physionet rr-interval-healthy-subjects/1.0.0/000: $intercept, $α")
+        # println("Physionet rr-interval-healthy-subjects/1.0.0/000: $intercept, $α")
 
         Plots.plot(log_scales, log_fluc, label="DFA", xlabel="Scale Log10", ylabel="Fluctuation Log10", seriestype=:scatter)
         Plots.plot!(log_scales, intercept .+ α .* log_scales, label="DFA Fit")
@@ -195,8 +195,8 @@ import HTTP
         Plots.plot!(log_scales, intercept .+ α1 .* log_scales, label="DFA Fit α1")
         Plots.plot!(log_scales, intercept .+ α2 .* log_scales, label="DFA Fit α2")
         Plots.savefig("DFA.png")
-        println("Physionet rr-interval-healthy-subjects/1.0.0/000 α1: $α1")
-        println("Physionet rr-interval-healthy-subjects/1.0.0/000 α2: $α2")
+        # println("Physionet rr-interval-healthy-subjects/1.0.0/000 α1: $α1")
+        # println("Physionet rr-interval-healthy-subjects/1.0.0/000 α2: $α2")
         
     end
 end

@@ -43,7 +43,7 @@ scales, fluc = dfa(x, boxmax=1000, boxmin=4, boxratio=1.2, overlap=0.5)
 ```
 To estimates the scaling exponent:
 ```
-intercept, α = polyfit(log10(scales), log10(fluc))  # α is scaling exponent
+intercept, α = polyfit(log10.(scales), log10.(fluc))  # α is scaling exponent
 ```
 To plot F(n):
 ```
@@ -53,8 +53,8 @@ scatter(scales, fluc, "o")
 ```
 To plot F(n) with fitted line:
 ```
-log_scales = log10(scales)
-plot(log_scales, log10(fluc), "o", log_scales, α.*log_scales.+intercept)
+log_scales = log10.(scales)
+plot(log_scales, log10.(fluc), "o", log_scales, α.*log_scales.+intercept)
 ```
 
 ## References
