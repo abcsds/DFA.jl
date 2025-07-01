@@ -1,7 +1,7 @@
 name = "DFA"
 uuid = "2556a7c9-976d-46bb-b923-66b4a6f0a5bd"
 authors = ["afternone", "Alberto Barradas <abcsds@gmail.com>"]
-version = "v1.0.0-DEV"
+version = "v1.0.0"
 
 
 [compat]
